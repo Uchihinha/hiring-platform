@@ -15,10 +15,13 @@ return new class extends Migration
     {
         Schema::create('candidates', function (Blueprint $table) {
             $table->id();
+            
             $table->string('name');
             $table->string('email');
             $table->text('description');
             $table->json('strengths');
+            $table->enum('status', [0, 1, 2]);
+
             $table->timestamps();
         });
     }
