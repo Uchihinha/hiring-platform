@@ -34,7 +34,6 @@ class CandidateRepositoryTest extends TestCase
     {
         $this->candidate->status = Candidate::CONTACTED;
         $this->candidate->save();
-        $this->candidate->refresh();
 
         $this->assertTrue($this->repository->canBeHired($this->candidate->id));
     }
@@ -54,11 +53,32 @@ class CandidateRepositoryTest extends TestCase
         $this->assertTrue($this->candidate->status == Candidate::HIRED);
     }
 
+    public function testCanBeContactedShouldBeFalse(): void
+    {
+        $this->candidate->status = Candidate::CONTACTED;
+        $this->candidate->save();
+
+        $this->repository->setModel($this->candidate);
+
+        $this->assertFalse($this->repository->canBeContacted());
+    }
+
+    public function testCanBeContactedShouldBeTrue(): void
+    {
+        $this->candidate->status = Candidate::INITIAL;
+        $this->candidate->save();
+
+        $this->repository->setModel($this->candidate);
+        
+        $this->assertTrue($this->repository->canBeContacted());
+    }
+
     public function testContact(): void
     {
         Event::fake();
 
-        $this->repository->contact($this->candidate->id);
+        $this->repository->setModel($this->candidate);
+        $this->repository->contact();
         
         $this->candidate->refresh();
         

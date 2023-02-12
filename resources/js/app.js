@@ -4,9 +4,11 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-require('./bootstrap');
+require("./bootstrap");
 
-window.Vue = require('vue').default;
+import Swal from "sweetalert2";
+
+window.Vue = require("vue").default;
 
 /**
  * The following block of code may be used to automatically register your
@@ -19,7 +21,31 @@ window.Vue = require('vue').default;
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component('candidates', require('./components/Candidates.vue').default);
+Vue.component("candidates", require("./components/Candidates.vue").default);
+
+/**
+ * Global Mixins
+ * https://v2.vuejs.org/v2/guide/mixins.html?redirect=true#Global-Mixin
+ */
+
+Vue.mixin({
+  data() {
+    return {
+      toast: Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener("mouseenter", Swal.stopTimer);
+          toast.addEventListener("mouseleave", Swal.resumeTimer);
+        },
+      }),
+      companyId: 1, // just to this test, it's not ideal to hardcode ids
+    };
+  },
+});
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -28,5 +54,5 @@ Vue.component('candidates', require('./components/Candidates.vue').default);
  */
 
 const app = new Vue({
-    el: '#app',
+  el: "#app",
 });

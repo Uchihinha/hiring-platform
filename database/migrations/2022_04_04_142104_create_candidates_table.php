@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('email');
             $table->text('description');
             $table->json('strengths');
-            $table->enum('status', ['none', 'contacted', 'hired']);
+            $table->enum('status', ['none', 'contacted', 'hired'])->default('none');
 
             $table->timestamps();
         });

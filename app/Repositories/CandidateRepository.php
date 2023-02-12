@@ -16,6 +16,11 @@ class CandidateRepository implements CandidateRepositoryContract
     {
         $this->candidate = $candidate;
     }
+
+    public function setModel(Candidate $candidate): void
+    {
+        $this->candidate = $candidate;
+    }
     
     public function canBeHired(int $id): bool
     {
@@ -35,20 +40,18 @@ class CandidateRepository implements CandidateRepositoryContract
         });
     }
 
-    public function canBeContacted(int $id): bool
+    public function canBeContacted(): bool
     {
-        return $this->candidate->find($id)->status == $this->candidate::INITIAL;
+        return $this->candidate->status == $this->candidate::INITIAL;
     }
 
-    public function contact(int $id): void
+    public function contact(): void
     {
-        DB::transaction(function () use($id) {
-            $candidate = $this->candidate->find($id);
+        DB::transaction(function () {
+            $this->candidate->status = Candidate::CONTACTED;
+            $this->candidate->save();
     
-            $candidate->status = Candidate::CONTACTED;
-            $candidate->save();
-    
-            $event = new SendContactingEmail($candidate);
+            $event = new SendContactingEmail($this->candidate);
             event($event);
         });
     }
