@@ -6,7 +6,6 @@ use App\Models\Candidate;
 use App\Models\Company;
 use App\Repositories\CandidateRepository;
 use App\Repositories\CompanyRepository;
-use Exception;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
