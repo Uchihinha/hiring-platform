@@ -22,20 +22,18 @@ class CandidateRepository implements CandidateRepositoryContract
         $this->candidate = $candidate;
     }
     
-    public function canBeHired(int $id): bool
+    public function canBeHired(): bool
     {
-        return $this->candidate->find($id)->status == $this->candidate::CONTACTED;
+        return $this->candidate->status == $this->candidate::CONTACTED;
     }
 
-    public function hire(int $id): void
+    public function hire(): void
     {
-        DB::transaction(function () use($id) {
-            $candidate = $this->candidate->find($id);
+        DB::transaction(function () {
+            $this->candidate->status = Candidate::HIRED;
+            $this->candidate->save();
     
-            $candidate->status = Candidate::HIRED;
-            $candidate->save();
-    
-            $event = new SendHiringEmail($candidate);
+            $event = new SendHiringEmail($this->candidate);
             event($event);
         });
     }

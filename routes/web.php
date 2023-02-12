@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\CandidateController;
+use App\Http\Controllers\CompanyController;
+use App\Http\Middleware\ValidateCandidateOwner;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,6 +23,10 @@ Route::get('/', function () {
 Route::get('candidates-list', [CandidateController::class, 'index']);
 
 Route::prefix('companies/{company}')->group(function () {
-    Route::get('candidates', [CandidateController::class, 'index']);
-    Route::post('candidates/{candidate}/contact', [CandidateController::class, 'contact']);
+    Route::get('/balance', [CompanyController::class, 'getBalance']);
+
+    Route::prefix('candidates/{candidate}')->middleware(ValidateCandidateOwner::class)->group(function() {
+        Route::post('/contact', [CandidateController::class, 'contact']);
+        Route::post('/hire', [CandidateController::class, 'hire']);
+    });
 });

@@ -35,4 +35,9 @@ class CompanyRepository implements CompanyRepositoryContract
     {
         return $this->company->wallet->coins >= $requiredAmount;
     }
+
+    public function getBalance(): int
+    {
+        return $this->company->wallet->coins ?? 0;
+    }
 }

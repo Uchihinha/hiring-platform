@@ -47,4 +47,21 @@ class CandidateService
             $this->companyRepository->debitBalance($this::CONTACT_COST);
         });
     }
+
+    public function hire(Company $company, Candidate $candidate): void
+    {
+        $this->repository->setModel($candidate);
+        $this->companyRepository->setModel($company);
+
+        $canBeHired = $this->repository->canBeHired();
+
+        if (! $canBeHired) {
+            throw new BadRequestHttpException("This candidate cannot be hired, remember to contact it first if you didn't!");
+        }
+
+        DB::transaction(function () {
+            $this->repository->hire();
+            $this->companyRepository->addBalance($this::CONTACT_COST);
+        });
+    }
 }

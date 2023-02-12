@@ -27,7 +27,8 @@ class CandidateRepositoryTest extends TestCase
 
     public function testCanBeHiredShouldBeFalse(): void
     {
-        $this->assertFalse($this->repository->canBeHired($this->candidate->id));
+        $this->repository->setModel($this->candidate);
+        $this->assertFalse($this->repository->canBeHired());
     }
 
     public function testCanBeHiredShouldBeTrue(): void
@@ -35,7 +36,9 @@ class CandidateRepositoryTest extends TestCase
         $this->candidate->status = Candidate::CONTACTED;
         $this->candidate->save();
 
-        $this->assertTrue($this->repository->canBeHired($this->candidate->id));
+        $this->repository->setModel($this->candidate);
+
+        $this->assertTrue($this->repository->canBeHired());
     }
 
     public function testHire(): void
@@ -45,7 +48,9 @@ class CandidateRepositoryTest extends TestCase
         $this->candidate->status = Candidate::CONTACTED;
         $this->candidate->save();
 
-        $this->repository->hire($this->candidate->id);
+        $this->repository->setModel($this->candidate);
+
+        $this->repository->hire();
         
         $this->candidate->refresh();
         

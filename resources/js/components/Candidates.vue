@@ -1,5 +1,9 @@
 <template>
   <div>
+    <div class="w-full p-6 bg-teal-100 text-right font-bold">
+      Your wallet has: {{ balance }} coins
+    </div>
+
     <div class="p-10">
       <h1 class="text-4xl font-bold">Candidates</h1>
     </div>
@@ -47,6 +51,16 @@
 export default {
   props: ["candidates"],
 
+  data() {
+    return {
+      balance: 0,
+    };
+  },
+
+  created() {
+    this.getCompanyBalance();
+  },
+
   methods: {
     contactCandidate(candidate) {
       axios
@@ -56,6 +70,8 @@ export default {
             icon: "success",
             title: message,
           });
+
+          this.getCompanyBalance();
         })
         .catch(({ response: { data } }) => {
           this.toast.fire({
@@ -66,13 +82,26 @@ export default {
     },
     hireCandidate(candidate) {
       axios
-        .post(`companies/${this.companyId}/candidates/${candidate.id}/contact`)
-        .then((result) => {
-          console.log(result);
+        .post(`companies/${this.companyId}/candidates/${candidate.id}/hire`)
+        .then(({ data: { message } }) => {
+          this.toast.fire({
+            icon: "success",
+            title: message,
+          });
+
+          this.getCompanyBalance();
         })
-        .catch((err) => {
-          console.log(err);
+        .catch(({ response: { data } }) => {
+          this.toast.fire({
+            icon: "error",
+            title: data.message,
+          });
         });
+    },
+    getCompanyBalance() {
+      axios.get(`companies/${this.companyId}/balance`).then(({ data }) => {
+        this.balance = data;
+      });
     },
   },
 };
