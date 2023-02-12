@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Company;
+use App\Models\Wallet;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -10,16 +11,13 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class WalletFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
+    protected $model = Wallet::class;
+
     public function definition()
     {
         return [
             'coins' => 20,
-            'company_id' => Company::factory()->create()->id,
+            'company_id' => fn () => Company::factory()->create()->id,
         ];
     }
 }

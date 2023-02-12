@@ -11,6 +11,10 @@ class Wallet extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'company_id'
+    ];
+
     public function walletStatements(): HasMany
     {
         return $this->hasMany(WalletStatement::class);

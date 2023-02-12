@@ -10,6 +10,10 @@ class Company extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'id'
+    ];
+
     public function wallets(): HasMany
     {
         return $this->hasMany(Wallet::class);

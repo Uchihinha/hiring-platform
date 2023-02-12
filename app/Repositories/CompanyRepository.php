@@ -21,16 +21,18 @@ class CompanyRepository implements CompanyRepositoryContract
 
     public function addBalance(int $amount): void
     {
-        return;
+        $this->company->wallet->coins += $amount;
+        $this->company->wallet->save();
     }
 
     public function debitBalance(int $amount): void
     {
-        return;
+        $this->company->wallet->coins -= $amount;
+        $this->company->wallet->save();
     }
 
-    public function checkBalance(int $amountRequired): bool
+    public function checkBalance(int $requiredAmount): bool
     {
-        return false;
+        return $this->company->wallet->coins >= $requiredAmount;
     }
 }

@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Company;
+use App\Models\Vacancy;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -10,15 +11,12 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class VacancyFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
+    protected $model = Vacancy::class;
+
     public function definition()
     {
         return [
-            'company_id' => Company::factory()->create()->id,
+            'company_id' => fn () => Company::factory()->create()->id,
             'title' => $this->faker->jobTitle()
         ];
     }
