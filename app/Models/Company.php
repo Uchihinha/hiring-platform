@@ -4,14 +4,19 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Company extends Model
 {
     use HasFactory;
 
-    public function wallet(): HasOne
+    public function wallets(): HasMany
     {
-        return $this->hasOne(Wallet::class);
+        return $this->hasMany(Wallet::class);
+    }
+
+    public function wallet(): ?Wallet
+    {
+        return $this->wallets->first();
     }
 }

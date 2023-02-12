@@ -15,6 +15,8 @@ return new class extends Migration
     {
         Schema::create('candidates', function (Blueprint $table) {
             $table->id();
+
+            $table->foreignId('vacancy_id')->constrained();
             
             $table->string('name');
             $table->string('email');

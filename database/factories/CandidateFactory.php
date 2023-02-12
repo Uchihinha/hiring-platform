@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Vacancy;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,6 +18,7 @@ class CandidateFactory extends Factory
     public function definition()
     {
         return [
+            'vacancy_id' => Vacancy::factory()->create()->id,
             'name' => $this->faker->name(),
             'email' => $this->faker->unique()->safeEmail(),
             'description' => $this->faker->text,

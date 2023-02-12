@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Company;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,7 +19,7 @@ class WalletFactory extends Factory
     {
         return [
             'coins' => 20,
-            'company_id' => 1,
+            'company_id' => Company::factory()->create()->id,
         ];
     }
 }
