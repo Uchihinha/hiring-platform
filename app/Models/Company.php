@@ -19,7 +19,7 @@ class Company extends Model
         return $this->hasMany(Wallet::class);
     }
 
-    public function wallet(): ?Wallet
+    public function getWalletAttribute(): ?Wallet
     {
         return $this->wallets->first();
     }
