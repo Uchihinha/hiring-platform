@@ -24,11 +24,18 @@ Now, run migrate with seed command to create and fill the database:
 ./vendor/bin/sail php artisan migrate --seed
 ```
 
-And finally, let's generate the application key and clean the caches:
+Now, let's generate the application key and clean the caches:
 
 ```
 ./vendor/bin/sail php artisan key:generate
 ./vendor/bin/sail php artisan optimize:clear
+```
+
+Finally, let's set up our front end:
+
+```
+./vendor/bin/sail npm install
+./vendor/bin/sail npm run dev
 ```
 
 Now you have the application running on [http://localhost](http://localhost)
