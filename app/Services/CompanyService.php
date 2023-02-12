@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Company;
 use App\Repositories\CompanyRepository;
+use Illuminate\Support\Collection;
 
 class CompanyService
 {
@@ -19,5 +20,12 @@ class CompanyService
         $this->repository->setModel($company);
 
         return $this->repository->getBalance();
+    }
+
+    public function getCandidates(Company $company): Collection
+    {
+        $this->repository->setModel($company);
+
+        return $this->repository->getCandidates();
     }
 }

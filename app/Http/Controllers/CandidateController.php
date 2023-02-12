@@ -19,15 +19,7 @@ class CandidateController extends Controller
 
     public function index(): View
     {
-        $company = Company::find(1);
-
-        $candidates = Candidate::whereHas(
-            'vacancy.company',
-            fn($q) => $q->whereId($company->id)
-        )
-            ->get();
-
-        return view('candidates.index', compact('candidates'));
+        return view('candidates.index');
     }
 
     public function contact(Company $company, Candidate $candidate): JsonResponse

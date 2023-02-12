@@ -24,6 +24,7 @@ Route::get('candidates-list', [CandidateController::class, 'index']);
 
 Route::prefix('companies/{company}')->group(function () {
     Route::get('/balance', [CompanyController::class, 'getBalance']);
+    Route::get('/candidates', [CompanyController::class, 'getCandidates']);
 
     Route::prefix('candidates/{candidate}')->middleware(ValidateCandidateOwner::class)->group(function() {
         Route::post('/contact', [CandidateController::class, 'contact']);

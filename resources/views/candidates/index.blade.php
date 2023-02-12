@@ -19,7 +19,7 @@
     </head>
     <body>
         <div id="app">
-            <candidates :candidates="{{ json_encode($candidates) }}"></candidates>
+            <candidates />
         </div>
 
         <script src="{{ mix('/js/app.js') }}"></script>

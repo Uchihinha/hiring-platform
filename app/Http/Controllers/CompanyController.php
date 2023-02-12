@@ -22,4 +22,11 @@ class CompanyController extends Controller
 
         return response()->json($balance);
     }
+
+    public function getCandidates(Company $company): JsonResponse
+    {
+        $candidates = $this->companyService->getCandidates($company);
+
+        return response()->json($candidates);
+    }
 }

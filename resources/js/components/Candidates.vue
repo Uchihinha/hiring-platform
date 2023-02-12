@@ -25,8 +25,12 @@
             v-for="(strength, index) in JSON.parse(candidate.strengths)"
             v-bind:key="index"
             class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
-            >{{ strength }}</span
           >
+            {{ strength }}
+          </span>
+        </div>
+        <div class="p-6 float-left">
+          <candidate-status-badge :candidateStatus="candidate.status" />
         </div>
         <div class="p-6 float-right">
           <button
@@ -48,17 +52,22 @@
 </template>
 
 <script>
+import CandidateStatusBadge from "./CandidateStatusBadge.vue";
 export default {
-  props: ["candidates"],
+  components: {
+    CandidateStatusBadge,
+  },
 
   data() {
     return {
       balance: 0,
+      candidates: [],
     };
   },
 
   created() {
-    this.getCompanyBalance();
+    this.getBalance();
+    this.getCandidates();
   },
 
   methods: {
@@ -71,7 +80,8 @@ export default {
             title: message,
           });
 
-          this.getCompanyBalance();
+          this.getBalance();
+          this.getCandidates();
         })
         .catch(({ response: { data } }) => {
           this.toast.fire({
@@ -89,7 +99,8 @@ export default {
             title: message,
           });
 
-          this.getCompanyBalance();
+          this.getBalance();
+          this.getCandidates();
         })
         .catch(({ response: { data } }) => {
           this.toast.fire({
@@ -98,9 +109,14 @@ export default {
           });
         });
     },
-    getCompanyBalance() {
+    getBalance() {
       axios.get(`companies/${this.companyId}/balance`).then(({ data }) => {
         this.balance = data;
+      });
+    },
+    getCandidates() {
+      axios.get(`companies/${this.companyId}/candidates`).then(({ data }) => {
+        this.candidates = data;
       });
     },
   },

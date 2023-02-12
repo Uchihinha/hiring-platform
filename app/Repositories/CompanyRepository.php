@@ -2,8 +2,10 @@
 
 namespace App\Repositories;
 
+use App\Models\Candidate;
 use App\Models\Company;
 use App\Repositories\Contracts\CompanyRepositoryContract;
+use Illuminate\Support\Collection;
 
 class CompanyRepository implements CompanyRepositoryContract
 {
@@ -39,5 +41,16 @@ class CompanyRepository implements CompanyRepositoryContract
     public function getBalance(): int
     {
         return $this->company->wallet->coins ?? 0;
+    }
+
+    public function getCandidates(): Collection
+    {
+        $candidates = Candidate::whereHas(
+            'vacancy.company',
+            fn($q) => $q->whereId($this->company->id)
+        )
+            ->get();
+
+        return $candidates;
     }
 }
