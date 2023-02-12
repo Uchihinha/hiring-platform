@@ -21,3 +21,4 @@ resources/js/routes.js
 /helm/Chart.lock
 _ide_helper.php
 .phpstorm.meta.php
+public/coverage/
