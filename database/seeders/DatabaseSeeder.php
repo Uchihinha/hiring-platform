@@ -25,7 +25,7 @@ class DatabaseSeeder extends Seeder
             'company_id' => $company->id
         ]);
 
-        Candidate::factory(3)->create([
+        Candidate::factory(9)->create([
             'vacancy_id' => $vacancy->id
         ]);
 

@@ -1,0 +1,1 @@
+<p>Hey {{ $candidate->name }}, you're hired!</p>

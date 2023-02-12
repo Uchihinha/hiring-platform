@@ -12,7 +12,7 @@ class SendContactingEmail
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    private Candidate $candidate;
+    public Candidate $candidate;
 
     public function __construct(Candidate $candidate)
     {

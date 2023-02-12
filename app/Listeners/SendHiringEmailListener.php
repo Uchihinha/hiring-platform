@@ -2,19 +2,16 @@
 
 namespace App\Listeners;
 
+use App\Events\SendHiringEmail;
+use App\Mail\HiredEmail;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\Mail;
 
-class SendHiringEmailListener
+class SendHiringEmailListener implements ShouldQueue
 {
-    /**
-     * Create the event listener.
-     *
-     * @return void
-     */
     public function __construct()
     {
-        //
+
     }
 
     /**
@@ -23,8 +20,8 @@ class SendHiringEmailListener
      * @param  object  $event
      * @return void
      */
-    public function handle($event)
+    public function handle(SendHiringEmail $event)
     {
-        //
+        Mail::to($event->candidate->email)->send(new HiredEmail($event->candidate));
     }
 }
