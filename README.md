@@ -28,7 +28,7 @@ Now you have the application running on [http://localhost](http://localhost)
 
 ## Mail
 
-As email provider I recommend you use [Maiitrap](https://mailtrap.io/), that's easy to use and integrate with Laravel.
+As email provider I recommend you use [Mailtrap](https://mailtrap.io/), that's easy to use and integrate with Laravel.
 
 But you can use whatever you want.
 
