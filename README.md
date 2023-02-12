@@ -1,42 +1,46 @@
+<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
 
-# MyZenTeam code test assignment
+# Hiring Platform
 
-## Description
+This application aims to simulate a hiring platform. It's using PHP Laravel Framework (9.2) + MySQL + Docker + Redis.
 
-In this test assignment we have prepared a hiring platform where job seekers (candidates) can be found and get contacted and hired from companies' hiring managers.
+## Instalation
 
-The platform is free for job seekers, but not for companies.
-The billing is handled by using a wallet. At the start each company has a wallet with 20 coins of credit.
-These coins can be used to contact candidates and contacting a candidate will cost the company 5 coins.
+You must have Docker, PHP (8.2) and Composer (I recommend the version 2) installed in your environment:
 
-On the candidates' list there is a button `Contact` and this is where a company can contact a candidate.
-Similarly, the button `Hire` is where a company can hire a candidate.
+- Clone the repo and copy `.env.example` to `.env` file;
+- Install de composer dependencies;
+- Start docker containers with Laravel Sail
 
-One of the tasks for this test assignment is to implement the `Contact a candidate` feature which should consist of the following:
-when a company contacts a candidate, we should send an email to that candidate and charge the company 5 coins from its wallet.
+```
+cp .env.example .env
+composer install
+./vendor/bin/sail up -d --build
+```
 
-The other feature that is part of this test assignment is to `hire a candidate`.
-When a company hires a candidate we should mark the candidate as `hired`, put back 5 coins in the wallet of the company, and send an email to the candidate to tell them they were hired.
-A company can hire only candidates that they have contacted before.
+Now, run migrate with seed command to create and fill the database:
 
-Aside from the features, we're aware that this app is far from perfect, so we'd like you to fix/improve anything that you find to be wrong or needs improvement (code, architecture, naming, readability, robustness, etc.).
+```
+./vendor/bin/sail php artisan migrate --seed
+```
 
-While doing this test assignment, please pay attention to these aspects:
+Now you have the application running on [http://localhost](http://localhost)
 
-- Security - we do not want to be hacked
-- Best practices - code should be clean and easy to maintain
-- Documentation - provide information on how to set up the project
-- Tests - test the parts that you feel necessary to
-- Logic - pay attention to the constraints throughout the test assignment
+## Mail
 
-## Notes
-- Authentication **IS NOT** in the scope of this assignment.
-- The list of candidates, the company and the wallet are predefined and there is no need to create new ones.
-- The emails that should be sent to the candidates can consist of only text, no design is needed.
+As email provider I recommend you use [Maiitrap](https://mailtrap.io/), that's easy to use and integrate with Laravel.
 
+But you can use whatever you want.
 
-_**This app was created only for the purpose of the test assignment and code quality in this repository DOES NOT represent code quality in MyZenTeam.**_
+`Don't forget to change variables in the .env file with your mail credentials`
 
-## Get started
+## Queue
 
-Use this repository as your starting point, but **DO NOT** fork it. Create a private repository on GitHub for your application source code, push it, give access to **@siljanoskam** and **@ashraful19** to it and send the link to us.
+This application is using Redis and Supervisor to handle queues. It's started with the sail command, so you don't need to take care that manually.
+
+You can check the settings into `docker/8.2/supervisord.conf`
+
+## Final Notes
+
+- Just fixed the company id for tests purpooses;
+- Just created a wallet statement flow to log purposes, it's not being shown in the UI (it can be used in the future);
