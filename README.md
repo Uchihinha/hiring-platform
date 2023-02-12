@@ -24,6 +24,13 @@ Now, run migrate with seed command to create and fill the database:
 ./vendor/bin/sail php artisan migrate --seed
 ```
 
+And finally, let's generate the application key and clean the caches:
+
+```
+./vendor/bin/sail php artisan key:generate
+./vendor/bin/sail php artisan optimize:clear
+```
+
 Now you have the application running on [http://localhost](http://localhost)
 
 ## Mail
