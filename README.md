@@ -18,17 +18,17 @@ composer install
 ./vendor/bin/sail up -d --build
 ```
 
-Now, run migrate with seed command to create and fill the database:
-
-```
-./vendor/bin/sail php artisan migrate --seed
-```
-
 Now, let's generate the application key and clean the caches:
 
 ```
 ./vendor/bin/sail php artisan key:generate
 ./vendor/bin/sail php artisan optimize:clear
+```
+
+Now, run migrate with seed command to create and fill the database:
+
+```
+./vendor/bin/sail php artisan migrate --seed
 ```
 
 Finally, let's set up our front end:
