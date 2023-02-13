@@ -7,13 +7,14 @@ use App\Repositories\CompanyRepository;
 use App\Services\CandidateService;
 use Illuminate\Support\Facades\DB;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
+use Mockery\LegacyMockInterface;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class CandidateServiceTest extends MockeryTestCase
 {
-    private CandidateService $candidateService;
-    private CandidateRepository $candidateRepository;
-    private CompanyRepository $companyRepository;
+    private CandidateService|LegacyMockInterface $candidateService;
+    private CandidateRepository|LegacyMockInterface $candidateRepository;
+    private CompanyRepository|LegacyMockInterface $companyRepository;
 
     public function setUp(): void
     {
@@ -35,10 +36,16 @@ class CandidateServiceTest extends MockeryTestCase
         $company = new Company();
 
         $this->candidateRepository->shouldReceive('canBeContacted')->andReturn(true);
-        $this->companyRepository->shouldReceive('checkBalance')->andReturn(true);
+        $this->companyRepository
+            ->shouldReceive('checkBalance')
+            ->with($this->candidateService::CONTACT_COST)
+            ->andReturn(true);
 
         $this->candidateRepository->shouldReceive('contact')->once();
-        $this->companyRepository->shouldReceive('debitBalance')->once();
+        $this->companyRepository
+            ->shouldReceive('debitBalance')
+            ->with($this->candidateService::CONTACT_COST)
+            ->once();
 
         DB::shouldReceive('beginTransaction');
         DB::shouldReceive('commit');
@@ -71,5 +78,30 @@ class CandidateServiceTest extends MockeryTestCase
         $this->expectExceptionMessage('Insufficient funds!');
 
         $this->candidateService->contact($company, $candidate);
+    }
+
+    public function testHire(): void
+    {
+        $this->candidateRepository->shouldReceive('canBeHired')->once()->andReturn(true);
+        $this->candidateRepository->shouldReceive('hire')->once();
+
+        $this->companyRepository->shouldReceive('setModel')->once();
+        $this->companyRepository
+            ->shouldReceive('addBalance')
+            ->with($this->candidateService::CONTACT_COST)
+            ->once();
+
+        $this->candidateService->hire(Mockery::mock(Company::class), Mockery::mock(Candidate::class));
+    }
+
+    public function testHireThrowsException(): void
+    {
+        $this->candidateRepository->shouldReceive('setModel')->once();
+        $this->candidateRepository->shouldReceive('canBeHired')->once()->andReturn(false);
+
+        $this->companyRepository->shouldReceive('setModel')->once();
+
+        $this->expectException(BadRequestHttpException::class);
+        $this->candidateService->hire(Mockery::mock(Company::class), Mockery::mock(Candidate::class));
     }
 }

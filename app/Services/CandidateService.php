@@ -11,7 +11,7 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class CandidateService
 {
-    private const CONTACT_COST = 5;
+    public const CONTACT_COST = 5;
 
     private CandidateRepository $repository;
 

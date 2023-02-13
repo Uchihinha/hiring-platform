@@ -54,6 +54,12 @@ This application is using Redis and Supervisor to handle queues. It's started wi
 
 You can check the settings into `docker/8.2/supervisord.conf`
 
+## Code Coverage
+
+This application have full test coverage on Repositories and Services:
+![Repositories Full Report](./readme-images/repositories-report.png "Repositories Full Report")
+![Services Full Report](./readme-images/services-report.png "Services Full Report")
+
 ## Final Notes
 
 - Just fixed the company id for tests purpooses;
